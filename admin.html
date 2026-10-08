@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>관리자 | 캐릭터 공모전</title>
+  <!-- 기본 색·버튼 스타일은 학생 화면과 공유하고, 관리자 전용 스타일만 admin.css 에 둠 -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="admin">
+
+  <!-- ================= 로그인 / 관리자 계정 만들기 ================= -->
+  <section id="authView" class="auth" hidden>
+    <form id="authForm" class="auth__box" novalidate>
+      <h1 id="authTitle">교사 로그인</h1>
+      <label class="field"><span class="field__label">이메일</span>
+        <input id="authEmail" type="email" autocomplete="username" required /></label>
+      <label class="field"><span class="field__label">비밀번호 (6자 이상)</span>
+        <input id="authPw" type="password" autocomplete="current-password" required /></label>
+      <label class="field" id="codeField" hidden><span class="field__label">관리자 가입 코드</span>
+        <input id="authCode" type="text" autocomplete="off" /></label>
+      <p id="authError" class="form-error" role="alert"></p>
+      <button id="authSubmit" class="btn btn--primary btn--block" type="submit">로그인</button>
+      <button id="authToggle" class="btn btn--text btn--block" type="button">관리자 계정 만들기</button>
+      <p class="auth__back"><a href="index.html">← 학생 화면으로</a></p>
+    </form>
+  </section>
+
+  <!-- ================= 대시보드(로그인 후) ================= -->
+  <div id="appView" hidden>
+    <header class="topbar">
+      <h1 class="topbar__title">관리자</h1>
+      <div class="topbar__user"><span id="adminEmail" class="topbar__name"></span>
+        <a class="btn btn--text" href="index.html">학생 화면</a>
+        <button id="logoutBtn" class="btn" type="button">로그아웃</button></div>
+    </header>
+    <nav class="tabs" id="tabs">
+      <button data-tab="dash" class="is-active" type="button">대시보드</button>
+      <button data-tab="art" type="button">작품</button>
+      <button data-tab="stu" type="button">학생</button>
+      <button data-tab="cmt" type="button">댓글</button>
+      <button data-tab="res" type="button">결과</button>
+      <button data-tab="adm" type="button">교사 계정</button>
+    </nav>
+
+    <main class="wrap">
+      <!-- 대시보드 -->
+      <section id="tab-dash" class="panel">
+        <div class="card-box">
+          <div class="row"><div><h2>투표 상태</h2><p id="voteLabel" class="muted"></p></div>
+            <button id="voteSwitch" class="switch" type="button" role="switch" aria-checked="false"><span></span></button></div>
+        </div>
+        <div class="stats" id="statsBox"></div>
+        <form id="settingsForm" class="card-box">
+          <h2>사이트 제목·안내문</h2>
+          <label class="field"><span class="field__label">제목</span><input id="setTitle" maxlength="60" /></label>
+          <label class="field"><span class="field__label">안내문</span><textarea id="setNotice" rows="3" maxlength="300"></textarea></label>
+          <button class="btn btn--primary" type="submit">저장</button>
+        </form>
+      </section>
+
+      <!-- 작품 -->
+      <section id="tab-art" class="panel" hidden>
+        <div class="card-box">
+          <h2>작품 올리기</h2>
+          <p class="muted">이미지 파일을 아래에 끌어다 놓거나 눌러서 고르세요. 여러 장 가능 (jpg·png·webp·gif, 10MB 이하).</p>
+          <div id="drop" class="drop" tabindex="0">이미지를 여기로 끌어다 놓기<br /><small>또는 눌러서 파일 선택</small></div>
+          <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden />
+          <div class="row row--wrap">
+            <button id="csvBtn" class="btn" type="button">작품정보 CSV 불러오기</button>
+            <input id="csvInput" type="file" accept=".csv,text/csv" hidden />
+            <span id="csvInfo" class="muted"></span>
+          </div>
+          <div id="drafts"></div>
+          <button id="uploadAll" class="btn btn--primary" type="button" hidden>모두 등록</button>
+        </div>
+        <h2 class="sec-h">등록된 작품 <span id="artCount" class="muted"></span></h2>
+        <div id="artList"></div>
+      </section>
+
+      <!-- 학생 -->
+      <section id="tab-stu" class="panel" hidden>
+        <div class="row row--wrap">
+          <input id="stuSearch" class="search" placeholder="학교·학번·이름 검색" />
+          <button id="stuCsv" class="btn" type="button">CSV 내려받기</button>
+        </div>
+        <div class="table-wrap"><table class="table" id="stuTable"></table></div>
+      </section>
+
+      <!-- 댓글 -->
+      <section id="tab-cmt" class="panel" hidden>
+        <label class="check"><input id="cmtHiddenOnly" type="checkbox" /><span>숨긴 댓글만 보기</span></label>
+        <div class="table-wrap"><table class="table" id="cmtTable"></table></div>
+      </section>
+
+      <!-- 결과 -->
+      <section id="tab-res" class="panel" hidden>
+        <div class="row row--wrap">
+          <button class="btn" data-csv="art" type="button">CSV: 작품별 집계</button>
+          <button class="btn" data-csv="likes" type="button">CSV: 하트 상세</button>
+          <button class="btn" data-csv="cmts" type="button">CSV: 댓글 상세</button>
+        </div>
+        <div class="table-wrap"><table class="table" id="rankTable"></table></div>
+      </section>
+
+      <!-- 교사 계정 -->
+      <section id="tab-adm" class="panel" hidden>
+        <div class="card-box"><h2>교사 목록</h2><div id="adminList"></div></div>
+        <form id="addAdminForm" class="card-box" novalidate>
+          <h2>교사 추가</h2>
+          <label class="field"><span class="field__label">이메일</span><input id="newEmail" type="email" required /></label>
+          <label class="field"><span class="field__label">비밀번호 (6자 이상)</span><input id="newPw" type="password" autocomplete="new-password" required /></label>
+          <label class="field"><span class="field__label">관리자 가입 코드</span><input id="newCode" autocomplete="off" required /></label>
+          <p id="addAdminErr" class="form-error"></p>
+          <button class="btn btn--primary" type="submit">교사 추가</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

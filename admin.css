@@ -1,0 +1,67 @@
+/* =====================================================================
+   관리자 화면 전용 스타일 (색·버튼·입력창 기본 모양은 style.css 와 공유)
+   ===================================================================== */
+body.admin { background: var(--bg-soft); }
+
+/* ---------- 로그인 ---------- */
+.auth { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.auth__box { width: 100%; max-width: 380px; padding: 24px 20px; background: var(--bg); border-radius: 16px; box-shadow: var(--shadow); }
+.auth__box h1 { margin: 0 0 16px; font-size: 22px; }
+.auth__back { text-align: center; margin: 12px 0 0; font-size: 13px; }
+.auth__back a { color: var(--text-sub); }
+
+/* ---------- 탭 ---------- */
+.tabs { display: flex; gap: 4px; padding: 8px 12px; overflow-x: auto; background: var(--bg); border-bottom: 1px solid var(--line); }
+.tabs button { flex-shrink: 0; padding: 8px 14px; border: 0; border-radius: 8px; background: none; font-weight: 600; color: var(--text-sub); }
+.tabs button.is-active { background: var(--text); color: #fff; }
+
+.wrap { max-width: 1000px; margin: 0 auto; padding: 16px; }
+.panel > * + * { margin-top: 16px; }
+.card-box { padding: 16px; background: var(--bg); border-radius: 14px; border: 1px solid var(--line); }
+.card-box > * + * { margin-top: 12px; }
+.card-box h2, .sec-h { margin: 0; font-size: 17px; }
+.muted { color: var(--text-sub); font-size: 14px; margin: 0; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.row--wrap { flex-wrap: wrap; justify-content: flex-start; }
+
+/* 입력창·텍스트 영역 */
+.card-box input:not([type=checkbox]), .card-box textarea, .search, .table input, .table textarea, .table select, .draft select {
+  width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg);
+}
+.card-box textarea, .table textarea { resize: vertical; }
+.search { max-width: 320px; }
+
+/* ---------- 투표 스위치 ---------- */
+.switch { position: relative; width: 56px; height: 32px; flex-shrink: 0; border: 0; border-radius: 999px; background: #c7c7cc; transition: background .2s; }
+.switch span { position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: #fff; transition: transform .2s; }
+.switch[aria-checked=true] { background: var(--accent); }
+.switch[aria-checked=true] span { transform: translateX(24px); }
+
+/* ---------- 현황 숫자 ---------- */
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 700px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+.stat { padding: 16px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; }
+.stat b { display: block; font-size: 28px; }
+.stat span { color: var(--text-sub); font-size: 14px; }
+
+/* ---------- 업로드 ---------- */
+.drop { padding: 32px 16px; border: 2px dashed var(--line); border-radius: 14px; text-align: center; color: var(--text-sub); cursor: pointer; }
+.drop.is-over, .drop:focus { border-color: var(--accent); background: var(--accent-soft); outline: none; }
+.draft, .art { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 12px; margin-top: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+.draft img, .art img { width: 96px; height: 96px; object-fit: contain; background: var(--bg-soft); border-radius: 8px; }
+.draft__fields, .art__fields { display: grid; gap: 6px; min-width: 0; }
+.draft__file { font-size: 12px; color: var(--text-sub); }
+.art.is-hidden { opacity: .55; }
+.art__btns { display: flex; flex-wrap: wrap; gap: 6px; }
+.btn--danger { color: #d70015; border-color: #f3b8bf; }
+
+/* ---------- 표 ---------- */
+.table-wrap { margin-top: 12px; overflow-x: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; }
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th, .table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+.table th { background: var(--bg-soft); white-space: nowrap; }
+.table td.num, .table th.num { text-align: right; }
+.table .btn { min-height: 32px; padding: 4px 10px; font-size: 13px; }
+.tag { display: inline-block; padding: 1px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 700; }
+.empty-box { padding: 24px; text-align: center; color: var(--text-sub); }
+.admin-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
